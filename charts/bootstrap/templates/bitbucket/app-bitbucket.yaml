@@ -47,11 +47,11 @@ spec:
           sysadminCredentials:
             secretName: "bitbucket-sysadmin"
           clustering:
-            enabled: true
+            enabled: false
           elasticSearch:
             baseUrl: http://elasticsearch-master.logging:9200
           mesh:
-            enabled: true
+            enabled: false
             nodeAutoRegistration: false
             setByDefault: true
             volume:
