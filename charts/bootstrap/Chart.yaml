@@ -1,0 +1,6 @@
+apiVersion: v2
+name: bootstrap
+version: 1.0.0
+description: Helm chart for bootstrapping IBM clusters
+type: application
+appVersion: "0.1.0"

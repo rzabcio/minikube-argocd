@@ -1,0 +1,47 @@
+domain: eedev.psi.de
+
+# elasticsearch:
+#   chartVersion: 7.17.3
+
+# cloudnativepg:
+#   operator:
+#     chartVersion: 0.20.1
+
+bitbucket:
+  chartVersion: 1.18
+  version: 8.19
+  postgresqlVersion: 16.2
+
+# gitlab:
+#   chartVersion: 7.9.2
+#   postgresqlVersion: 15.6
+
+# certmanager:
+#   chartVersion: v1.14.4
+
+# smallstep:
+#   chartVersion: 1.25.2
+
+# redis:
+#   chartVersion: 19.0.1
+
+# openldap:
+#   chartVersion: 4.2.2
+#   version: 2.6.7
+#   lumVersion: v1.11
+
+# jenkins:
+#   chartVersion: 5.1.3
+
+# jira:
+#   chartVersion: 1.18
+#   version: 9.14.1
+#   postgresqlVersion: 15.6
+
+# nexus:
+#   nexus2Version: 2.15.1
+#   nexus3ChartVersion: 64.2.0
+#   nexus3Version: 3.66.0
+
+# webdav:
+#   chartVersion: 0.0.7  

@@ -1,0 +1,38 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: bitbucket-postgresql-cluster
+  namespace: bitbucket
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  imageName: ghcr.io/cloudnative-pg/postgresql:{{ .Values.bitbucket.postgresqlVersion }}
+  instances: 3
+  storage:
+    size: 1Gi
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "100m"
+    limits:
+      memory: "1Gi"
+      cpu: "2"
+  postgresql:
+    parameters:
+      shared_buffers: 256MB
+      pg_stat_statements.max: '10000'
+      pg_stat_statements.track: all
+      auto_explain.log_min_duration: '10s'
+    pg_hba:
+    - host all all all md5
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: super-user
+  bootstrap:
+    initdb:
+      database: bitbucket
+      owner: bitbucket
+      secret:
+        name: bitbucket-app-user
+      encoding: 'UTF8'

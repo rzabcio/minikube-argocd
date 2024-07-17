@@ -1,0 +1,87 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: bitbucket
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  project: default
+  source:
+    repoURL: https://atlassian.github.io/data-center-helm-charts
+    targetRevision: "{{ .Values.bitbucket.chartVersion }}"
+    chart: bitbucket
+    helm:
+      values: |
+        replicaCount: 3
+        image:
+          tag: "{{ .Values.bitbucket.version }}"
+        database:
+          url: jdbc:postgresql://bitbucket-postgresql-cluster-rw:5432/bitbucket
+          driver: org.postgresql.Driver
+          credentials:
+            secretName: bitbucket-app-user
+        volumes:
+          localHome:
+            persistentVolumeClaim:
+              create: true
+          sharedHome:
+            customVolume:
+              persistentVolumeClaim:
+                claimName: "bitbucket-shared-volume-pvc"
+        ingress:
+          create: true
+          className: private-iks-k8s-nginx
+          nginx: true
+          host: bitbucket.{{ .Values.domain }}
+          path: "/"
+          https: true
+          annotations:
+            kubernetes.io/tls-acme: "true"
+            nginx.ingress.kubernetes.io/proxy-body-size: "0"
+          tlsSecretName: bitbucket-tls-secret
+        bitbucket:
+          license:
+            secretName: "bitbucket-license"
+          sysadminCredentials:
+            secretName: "bitbucket-sysadmin"
+          clustering:
+            enabled: true
+          elasticSearch:
+            baseUrl: http://elasticsearch-master.logging:9200
+          mesh:
+            enabled: true
+            nodeAutoRegistration: false
+            setByDefault: true
+            volume:
+              resources:
+                requests:
+                  storage: 500Gi
+            additionalCertificates:
+              secretName: psi-root-ca
+          additionalEnvironmentVariables:
+            - name: PLUGIN_SSH_BASEURL
+              value: ssh://bitbucket.{{ .Values.domain }}/
+          additionalCertificates:
+            secretName: psi-root-ca
+          startupProbe:
+            enabled: true
+          livenessProbe:
+            enabled: true
+            customProbe:
+              httpGet:
+                port: 7990
+                path: /status
+          resources:
+            container:
+              requests:
+                cpu: "1"
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: bitbucket
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
