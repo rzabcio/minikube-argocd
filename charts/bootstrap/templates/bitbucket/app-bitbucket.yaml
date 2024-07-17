@@ -34,9 +34,10 @@ spec:
           create: true
           className: private-iks-k8s-nginx
           nginx: true
-          host: bitbucket.{{ .Values.domain }}
+          # host: bitbucket.{{ .Values.domain }}
+        host: localhost:8081
           path: "/"
-          https: true
+          http: true
           annotations:
             kubernetes.io/tls-acme: "true"
             nginx.ingress.kubernetes.io/proxy-body-size: "0"
@@ -73,6 +74,8 @@ spec:
               httpGet:
                 port: 7990
                 path: /status
+            initialDelaySeconds: 120
+            periodSeconds: 30
           resources:
             container:
               requests:
