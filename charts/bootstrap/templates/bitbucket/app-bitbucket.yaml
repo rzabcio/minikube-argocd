@@ -35,7 +35,7 @@ spec:
           className: private-iks-k8s-nginx
           nginx: true
           # host: bitbucket.{{ .Values.domain }}
-        host: localhost:8081
+          host: localhost:8081
           path: "/"
           http: true
           annotations:
