@@ -32,14 +32,16 @@ spec:
                 claimName: "bitbucket-shared-volume-pvc"
         ingress:
           create: true
-          className: private-iks-k8s-nginx
-          nginx: true
+          # className: private-iks-k8s-nginx
+          # nginx: true
           # host: bitbucket.{{ .Values.domain }}
           # path: "/"
           # https: true
-          host: localhost:8081
+          className: nginx
+          nginx: true
+          host: bitbucket.arkhamasylum.xyz
           path: "/"
-          http: true
+          https: false
           annotations:
             kubernetes.io/tls-acme: "true"
             nginx.ingress.kubernetes.io/proxy-body-size: "0"
@@ -66,7 +68,7 @@ spec:
           additionalEnvironmentVariables:
             - name: PLUGIN_SSH_BASEURL
               # value: ssh://bitbucket.{{ .Values.domain }}/
-              value: ssh://localhost/
+              value: ssh://bitbucket.arkhamasylum.xyz/
           additionalCertificates:
             secretName: psi-root-ca
           startupProbe:
