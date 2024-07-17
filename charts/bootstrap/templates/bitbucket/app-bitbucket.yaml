@@ -35,6 +35,8 @@ spec:
           className: private-iks-k8s-nginx
           nginx: true
           # host: bitbucket.{{ .Values.domain }}
+          # path: "/"
+          # https: true
           host: localhost:8081
           path: "/"
           http: true
@@ -63,7 +65,8 @@ spec:
               secretName: psi-root-ca
           additionalEnvironmentVariables:
             - name: PLUGIN_SSH_BASEURL
-              value: ssh://bitbucket.{{ .Values.domain }}/
+              # value: ssh://bitbucket.{{ .Values.domain }}/
+              value: ssh://localhost/
           additionalCertificates:
             secretName: psi-root-ca
           startupProbe:
