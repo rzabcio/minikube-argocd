@@ -14,7 +14,7 @@ spec:
     chart: bitbucket
     helm:
       values: |
-        replicaCount: 3
+        replicaCount: 1
         image:
           tag: "{{ .Values.bitbucket.version }}"
         database:
@@ -57,7 +57,7 @@ spec:
             volume:
               resources:
                 requests:
-                  storage: 500Gi
+                  storage: 10Gi
             additionalCertificates:
               secretName: psi-root-ca
           additionalEnvironmentVariables:

@@ -10,7 +10,7 @@ spec:
   - ReadWriteMany
   resources:
     requests:
-      storage: 50Gi
+      storage: 10Gi
   # https://cloud.ibm.com/docs/containers?topic=containers-storage-file-vpc-sc-ref
   storageClassName: standard
 ---
@@ -26,5 +26,5 @@ spec:
   - ReadWriteMany
   resources:
     requests:
-      storage: 50Gi
+      storage: 10Gi
   storageClassName: standard
