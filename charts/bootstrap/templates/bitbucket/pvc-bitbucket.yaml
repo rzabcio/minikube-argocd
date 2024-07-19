@@ -13,18 +13,3 @@ spec:
       storage: 10Gi
   # https://cloud.ibm.com/docs/containers?topic=containers-storage-file-vpc-sc-ref
   storageClassName: standard
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: bitbucket-encrypted-shared-volume-pvc
-  namespace: bitbucket
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
-spec:
-  accessModes:
-  - ReadWriteMany
-  resources:
-    requests:
-      storage: 10Gi
-  storageClassName: standard

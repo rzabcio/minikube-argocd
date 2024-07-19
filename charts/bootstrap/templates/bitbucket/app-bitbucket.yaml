@@ -53,8 +53,6 @@ spec:
             secretName: "bitbucket-sysadmin"
           clustering:
             enabled: false
-          elasticSearch:
-            baseUrl: http://elasticsearch-master.logging:9200
           mesh:
             enabled: false
             nodeAutoRegistration: false
@@ -81,10 +79,20 @@ spec:
                 path: /status
             initialDelaySeconds: 120
             periodSeconds: 30
+          readinessProbe:
+            enabled: true
+            customProbe:
+              httpGet:
+                port: 7990
+                path: /status
+            initialDelaySeconds: 120
+            periodSeconds: 30
           resources:
             container:
               requests:
                 cpu: "1"
+        opensearch:
+          install: true
   destination:
     server: "https://kubernetes.default.svc"
     namespace: bitbucket
